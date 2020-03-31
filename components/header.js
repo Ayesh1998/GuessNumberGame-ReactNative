@@ -4,6 +4,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from "react-native-responsive-screen";
+import Colors from "../constants/colors";
 
 const Header = props => {
   return (
@@ -17,7 +18,7 @@ const styles = StyleSheet.create({
   header: {
     width: wp("100%"),
     height: hp("11%"),
-    backgroundColor: "#f7287b",
+    backgroundColor: Colors.primaryColor,
     paddingTop: hp("3%"),
     alignItems: "center",
     justifyContent: "center"
