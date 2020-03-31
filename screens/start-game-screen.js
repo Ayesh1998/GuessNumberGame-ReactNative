@@ -6,7 +6,9 @@ import {
   TextInput,
   Button,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
+  Alert,
+  TouchableOpacity
 } from "react-native";
 import {
   widthPercentageToDP as wp,
@@ -18,10 +20,36 @@ import InputField from "../components/input";
 
 const StartGameScreen = () => {
   const [inputValue, setinputValue] = useState("");
+  const [confirmed, setConfirmed] = useState(false);
+  const [selectedNum, setSelectedNum] = useState();
 
   const inputHandler = value => {
     setinputValue(value.replace(/[^0-9]/g, ""));
   };
+
+  const resetFunc = () => {
+    setinputValue("");
+    setConfirmed(false);
+  };
+
+  const confirmFunc = () => {
+    const chosenNumber = parseInt(inputValue);
+    if (chosenNumber <= 0) {
+      Alert.alert("Inavalid Number", "Number must be between 1 & 99", [
+        { text: "Okay", style: "cancel", onPress: resetFunc }
+      ]);
+      return;
+    }
+    setConfirmed(true);
+    setSelectedNum(parseInt(inputValue));
+    setinputValue("");
+  };
+
+  let confirmedOutput;
+
+  if (confirmed) {
+    confirmedOutput = <Text>chosen Number : {selectedNum}</Text>;
+  }
 
   return (
     <TouchableWithoutFeedback
@@ -49,18 +77,54 @@ const StartGameScreen = () => {
               <Button
                 color={Colors.accentColor}
                 title="Reset"
-                onPress={() => {}}
+                onPress={resetFunc}
               />
             </View>
             <View style={styles.buttons}>
               <Button
                 color={Colors.primaryColor}
                 title="Confirm"
-                onPress={() => {}}
+                onPress={confirmFunc}
               />
             </View>
           </View>
         </Card>
+        {confirmed ? (
+          <View>
+            <Card style={{ padding: 10, marginTop: 10, alignItems: "center" }}>
+              <Text style={{ color: "#666563" }}>Selected Number</Text>
+              <Text
+                style={{
+                  borderWidth: 1,
+                  borderColor: Colors.primaryColor,
+                  borderRadius: 12,
+                  padding: 8,
+                  width: 40,
+                  textAlign: "center",
+                  marginTop: 7
+                }}
+              >
+                {selectedNum}
+              </Text>
+              <TouchableOpacity onPress={() => {}}>
+                <Text
+                  style={{
+                    color: Colors.accentColor,
+                    // borderColor: Colors.accentColor,
+                    // borderWidth: 2,
+                    // borderRadius: 7,
+                    padding: 4,
+                    marginTop: 4
+                  }}
+                >
+                  Start Game
+                </Text>
+              </TouchableOpacity>
+            </Card>
+          </View>
+        ) : (
+          <Text></Text>
+        )}
       </View>
     </TouchableWithoutFeedback>
   );
@@ -74,7 +138,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    marginVertical: 10
+    marginVertical: 10,
+    color: "#666563"
   },
   buttonsCont: {
     flexDirection: "row",
@@ -91,12 +156,14 @@ const styles = StyleSheet.create({
     width: wp("25%")
   },
   input: {
-    paddingBottom: 0,
+    marginTop: 7,
     width: wp("13%"),
     textAlign: "center",
     height: hp("7%"),
     borderBottomColor: "grey",
-    borderBottomWidth: 1,
+    borderWidth: 1,
+    borderStyle: "dotted",
+    borderRadius: 10,
     marginBottom: hp("2%")
   }
 });
