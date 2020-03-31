@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
   Button,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from "react-native";
 import Colors from "../constants/colors";
 import {
@@ -29,6 +30,33 @@ const GameScreen = props => {
   const [currentGuess, setCurrentGuess] = useState(
     randomNumberBetweenGenerate(1, 100, props.usersChoice)
   );
+
+  const currentLow = useRef(1);
+  const currentHigh = useRef(100);
+
+  const nextGuessHandle = dirn => {
+    if (
+      (dirn === "lower" && currentGuess < props.usersChoice) ||
+      (dirn === "greater" && currentGuess > props.usersChoice)
+    ) {
+      Alert.alert("Hey dude!!", "This is wrong dude....", [
+        { text: "Sorry!!", style: "cancel" }
+      ]);
+      return;
+    }
+    if (dirn === "lower") {
+      currentHigh.current = currentGuess;
+    } else {
+      currentLow.current = currentGuess;
+    }
+
+    const nxtNo = randomNumberBetweenGenerate(
+      currentLow.current,
+      currentHigh.current,
+      currentGuess
+    );
+    setCurrentGuess(nxtNo);
+  };
 
   return (
     <View style={styles.screen}>
@@ -56,10 +84,10 @@ const GameScreen = props => {
           {currentGuess}
         </Text>
         <View style={styles.buttonGroup}>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={nextGuessHandle.bind(this, "lower")}>
             <Text style={styles.btnInBtnGroup}>Lower</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={nextGuessHandle.bind(this, "greater")}>
             <Text style={styles.btnInBtnGroup}>Greater</Text>
           </TouchableOpacity>
         </View>
