@@ -18,7 +18,7 @@ import Card from "../components/card";
 import Colors from "../constants/colors";
 import InputField from "../components/input";
 
-const StartGameScreen = () => {
+const StartGameScreen = props => {
   const [inputValue, setinputValue] = useState("");
   const [confirmed, setConfirmed] = useState(false);
   const [selectedNum, setSelectedNum] = useState();
@@ -40,6 +40,7 @@ const StartGameScreen = () => {
       ]);
       return;
     }
+    Keyboard.dismiss();
     setConfirmed(true);
     setSelectedNum(parseInt(inputValue));
     setinputValue("");
@@ -106,7 +107,9 @@ const StartGameScreen = () => {
               >
                 {selectedNum}
               </Text>
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity
+                onPress={() => props.startGameHandler(selectedNum)}
+              >
                 <Text
                   style={{
                     color: Colors.accentColor,
