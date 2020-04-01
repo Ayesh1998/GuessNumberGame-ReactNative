@@ -1,13 +1,5 @@
-import React, { useState, useRef } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Button,
-  TouchableOpacity,
-  Alert
-} from "react-native";
+import React, { useState, useRef, useEffect } from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
 import Colors from "../constants/colors";
 import {
   widthPercentageToDP as wp,
@@ -30,9 +22,18 @@ const GameScreen = props => {
   const [currentGuess, setCurrentGuess] = useState(
     randomNumberBetweenGenerate(1, 100, props.usersChoice)
   );
+  const [rounds, setrounds] = useState(0);
 
   const currentLow = useRef(1);
   const currentHigh = useRef(100);
+
+  var content;
+
+  useEffect(() => {
+    if (currentGuess === props.usersChoice) {
+      props.gameOverHandler(rounds);
+    }
+  }, [currentGuess, props.gameOverHandler, props.usersChoice]);
 
   const nextGuessHandle = dirn => {
     if (
@@ -56,6 +57,10 @@ const GameScreen = props => {
       currentGuess
     );
     setCurrentGuess(nxtNo);
+    setrounds(rds => rds + 1);
+    console.log(rounds);
+    console.log(currentGuess);
+    console.log(props.usersChoice);
   };
 
   return (
