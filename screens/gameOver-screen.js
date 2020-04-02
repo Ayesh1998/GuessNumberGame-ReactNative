@@ -18,27 +18,25 @@ import Card from "../components/card";
 
 const GameOver = ({ noRounds, userNumber, restartGameHandler }) => {
   return (
-    <ScrollView>
-      <View style={styles.screen}>
-        <Text style={styles.gameOver}>Game is over</Text>
-        <View style={styles.imageContainer}>
-          <Image
-            style={styles.images}
-            resizeMode="cover"
-            source={require("../assets/success.png")}
-          />
-        </View>
-        <View style={styles.resultss}>
-          <Text style={styles.results}>No of rounds : {noRounds}</Text>
-          <Text style={styles.results}>Number was : {userNumber}</Text>
-        </View>
-        <Button
-          color={Colors.accentColor}
-          title="New Game"
-          onPress={restartGameHandler}
+    <View style={styles.screen}>
+      <Text style={styles.gameOver}>Game is over</Text>
+      <View style={styles.imageContainer}>
+        <Image
+          style={styles.images}
+          resizeMode="cover"
+          source={require("../assets/success.png")}
         />
       </View>
-    </ScrollView>
+      <View style={styles.resultss}>
+        <Text style={styles.results}>No of rounds : {noRounds}</Text>
+        <Text style={styles.results}>Number was : {userNumber}</Text>
+      </View>
+      <Button
+        color={Colors.accentColor}
+        title="New Game"
+        onPress={restartGameHandler}
+      />
+    </View>
   );
 };
 
