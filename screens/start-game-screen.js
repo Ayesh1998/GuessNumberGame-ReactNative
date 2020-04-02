@@ -74,19 +74,13 @@ const StartGameScreen = props => {
           />
 
           <View style={styles.buttonsCont}>
-            <View style={styles.buttons}>
-              <Button
-                color={Colors.accentColor}
-                title="Reset"
-                onPress={resetFunc}
-              />
-            </View>
-            <View style={styles.buttons}>
-              <Button
-                color={Colors.primaryColor}
-                title="Confirm"
-                onPress={confirmFunc}
-              />
+            <View style={styles.buttonGroup}>
+              <TouchableOpacity onPress={resetFunc}>
+                <Text style={styles.btnInBtnGroup2}>Reset</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={confirmFunc}>
+                <Text style={styles.btnInBtnGroup1}>Confirm</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </Card>
@@ -140,6 +134,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   title: {
+    // fontFamily: "open-sans-bold",
     fontSize: 20,
     marginVertical: 10,
     color: "#666563"
@@ -168,6 +163,34 @@ const styles = StyleSheet.create({
     borderStyle: "dotted",
     borderRadius: 10,
     marginBottom: hp("2%")
+  },
+  buttonGroup: {
+    flexDirection: "row",
+    margin: 12,
+    alignItems: "center",
+    justifyContent: "space-between"
+  },
+  btnInBtnGroup1: {
+    textAlign: "center",
+    width: wp("20%"),
+    color: Colors.accentColor,
+    borderColor: Colors.accentColor,
+    borderWidth: 2,
+    borderRadius: 7,
+    padding: 4,
+    marginTop: 4,
+    marginHorizontal: wp("3%")
+  },
+  btnInBtnGroup2: {
+    textAlign: "center",
+    width: wp("20%"),
+    color: Colors.accentColor,
+    borderColor: Colors.primaryColor,
+    borderWidth: 2,
+    borderRadius: 7,
+    padding: 4,
+    marginTop: 4,
+    marginHorizontal: wp("3%")
   }
 });
 

@@ -4,10 +4,29 @@ import Header from "./components/header";
 import StartGameScreen from "./screens/start-game-screen";
 import GameScreen from "./screens/game-screen";
 import GameOver from "./screens/gameOver-screen";
+import * as Font from "expo-font";
+import { AppLoading } from "expo";
+
+const fetchFonts = () => {
+  Font.loadAsync({
+    "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
+    "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf")
+  });
+};
 
 export default function App() {
   const [userNumber, setuserNumber] = useState();
   const [noRounds, setnoRounds] = useState(0);
+  const [dataLoaded, setDataLoaded] = useState(false);
+
+  if (!dataLoaded) {
+    return (
+      <AppLoading
+        startAsync={fetchFonts}
+        onFinish={() => setDataLoaded(true)}
+      />
+    );
+  }
 
   const restartGameHandler = () => {
     setuserNumber(null);

@@ -1,11 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Alert,
+  ScrollView,
+  FlatList
+} from "react-native";
 import Colors from "../constants/colors";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from "react-native-responsive-screen";
 import Card from "../components/card";
+import { Ionicons } from "@expo/vector-icons";
 
 const randomNumberBetweenGenerate = (min, max, exclude) => {
   min = Math.ceil(min);
@@ -19,10 +28,10 @@ const randomNumberBetweenGenerate = (min, max, exclude) => {
 };
 
 const GameScreen = props => {
-  const [currentGuess, setCurrentGuess] = useState(
-    randomNumberBetweenGenerate(1, 100, props.usersChoice)
-  );
+  const iniatialGuess = randomNumberBetweenGenerate(1, 100, props.usersChoice);
+  const [currentGuess, setCurrentGuess] = useState(iniatialGuess);
   const [rounds, setrounds] = useState(0);
+  const [roundsArray, setroundsArray] = useState([iniatialGuess]);
 
   const currentLow = useRef(1);
   const currentHigh = useRef(100);
@@ -48,7 +57,7 @@ const GameScreen = props => {
     if (dirn === "lower") {
       currentHigh.current = currentGuess;
     } else {
-      currentLow.current = currentGuess;
+      currentLow.current = currentGuess + 1;
     }
 
     const nxtNo = randomNumberBetweenGenerate(
@@ -58,8 +67,12 @@ const GameScreen = props => {
     );
     setCurrentGuess(nxtNo);
     setrounds(rds => rds + 1);
+    setroundsArray(rounds => {
+      return [nxtNo, ...rounds];
+    });
     console.log(rounds);
     console.log(currentGuess);
+    console.log(roundsArray);
     console.log(props.usersChoice);
   };
 
@@ -90,13 +103,36 @@ const GameScreen = props => {
         </Text>
         <View style={styles.buttonGroup}>
           <TouchableOpacity onPress={nextGuessHandle.bind(this, "lower")}>
-            <Text style={styles.btnInBtnGroup}>Lower</Text>
+            <Text style={styles.btnInBtnGroup}>
+              <Ionicons name="md-remove" size={25} color="white" />
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={nextGuessHandle.bind(this, "greater")}>
-            <Text style={styles.btnInBtnGroup}>Greater</Text>
+            <Text style={styles.btnInBtnGroup}>
+              <Ionicons name="md-add" size={25} color="white" />
+            </Text>
           </TouchableOpacity>
         </View>
       </Card>
+
+      <FlatList
+        data={roundsArray}
+        keyExtractor={(item, index) => "key" + index}
+        renderItem={({ item }) => (
+          <View>
+            <Text>{item}</Text>
+          </View>
+        )}
+      />
+
+      {/* <ScrollView>
+        {roundsArray.map(round => {
+          <View>
+            <Text>{round}</Text>
+            <Text>gdfgdf</Text>
+          </View>;
+        })}
+      </ScrollView> */}
     </View>
   );
 };
@@ -116,11 +152,12 @@ const styles = StyleSheet.create({
   btnInBtnGroup: {
     textAlign: "center",
     width: wp("20%"),
+    backgroundColor: Colors.primaryColor,
     color: Colors.accentColor,
     borderColor: Colors.accentColor,
     borderWidth: 2,
     borderRadius: 7,
-    padding: 4,
+    padding: 2,
     marginTop: 4,
     marginHorizontal: wp("3%")
   }
