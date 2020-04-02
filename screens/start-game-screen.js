@@ -8,7 +8,9 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView,
+  KeyboardAvoidingView
 } from "react-native";
 import {
   widthPercentageToDP as wp,
@@ -53,77 +55,83 @@ const StartGameScreen = props => {
   }
 
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        Keyboard.dismiss();
-      }}
-    >
-      <View style={styles.screen}>
-        <Text style={styles.title}>Start a new game</Text>
-        <Card style={styles.inputCont}>
-          <Text>Select a number</Text>
-          <InputField
-            style={styles.input}
-            blurOnSubmit
-            autoCapitalization="none"
-            autoCorrect={false}
-            keyboardType="number-pad"
-            maxLength={2}
-            onChangeText={inputHandler}
-            value={inputValue}
-          />
+    <ScrollView>
+      <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={30}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            Keyboard.dismiss();
+          }}
+        >
+          <View style={styles.screen}>
+            <Text style={styles.title}>Start a new game</Text>
+            <Card style={styles.inputCont}>
+              <Text>Select a number</Text>
+              <InputField
+                style={styles.input}
+                blurOnSubmit
+                autoCapitalization="none"
+                autoCorrect={false}
+                keyboardType="number-pad"
+                maxLength={2}
+                onChangeText={inputHandler}
+                value={inputValue}
+              />
 
-          <View style={styles.buttonsCont}>
-            <View style={styles.buttonGroup}>
-              <TouchableOpacity onPress={resetFunc}>
-                <Text style={styles.btnInBtnGroup2}>Reset</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={confirmFunc}>
-                <Text style={styles.btnInBtnGroup1}>Confirm</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Card>
-        {confirmed ? (
-          <View>
-            <Card style={{ padding: 10, marginTop: 10, alignItems: "center" }}>
-              <Text style={{ color: "#666563" }}>Selected Number</Text>
-              <Text
-                style={{
-                  borderWidth: 1,
-                  borderColor: Colors.primaryColor,
-                  borderRadius: 12,
-                  padding: 8,
-                  width: 40,
-                  textAlign: "center",
-                  marginTop: 7
-                }}
-              >
-                {selectedNum}
-              </Text>
-              <TouchableOpacity
-                onPress={() => props.startGameHandler(selectedNum)}
-              >
-                <Text
-                  style={{
-                    color: Colors.accentColor,
-                    // borderColor: Colors.accentColor,
-                    // borderWidth: 2,
-                    // borderRadius: 7,
-                    padding: 4,
-                    marginTop: 4
-                  }}
-                >
-                  Start Game
-                </Text>
-              </TouchableOpacity>
+              <View style={styles.buttonsCont}>
+                <View style={styles.buttonGroup}>
+                  <TouchableOpacity onPress={resetFunc}>
+                    <Text style={styles.btnInBtnGroup2}>Reset</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={confirmFunc}>
+                    <Text style={styles.btnInBtnGroup1}>Confirm</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
             </Card>
+            {confirmed ? (
+              <View>
+                <Card
+                  style={{ padding: 10, marginTop: 10, alignItems: "center" }}
+                >
+                  <Text style={{ color: "#666563" }}>Selected Number</Text>
+                  <Text
+                    style={{
+                      borderWidth: 1,
+                      borderColor: Colors.primaryColor,
+                      borderRadius: 12,
+                      padding: 8,
+                      width: 40,
+                      textAlign: "center",
+                      marginTop: 7
+                    }}
+                  >
+                    {selectedNum}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => props.startGameHandler(selectedNum)}
+                  >
+                    <Text
+                      style={{
+                        color: Colors.accentColor,
+                        // borderColor: Colors.accentColor,
+                        // borderWidth: 2,
+                        // borderRadius: 7,
+                        padding: 4,
+                        marginTop: 4
+                      }}
+                    >
+                      Start Game
+                    </Text>
+                  </TouchableOpacity>
+                </Card>
+              </View>
+            ) : (
+              <Text></Text>
+            )}
           </View>
-        ) : (
-          <Text></Text>
-        )}
-      </View>
-    </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 

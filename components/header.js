@@ -16,7 +16,7 @@ const Header = props => {
 
 const styles = StyleSheet.create({
   header: {
-    width: wp("100%"),
+    width: "100%",
     height: hp("11%"),
     backgroundColor: Colors.primaryColor,
     paddingTop: hp("3%"),
