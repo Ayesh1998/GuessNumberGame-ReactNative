@@ -84,7 +84,8 @@ const GameScreen = props => {
           padding: 10,
           marginTop: 10,
           alignItems: "center",
-          width: wp("80%")
+          width: wp("80%"),
+          marginBottom: 13
         }}
       >
         <Text style={{ color: "#666563" }}>Oponents Guess</Text>
@@ -116,11 +117,12 @@ const GameScreen = props => {
       </Card>
 
       <FlatList
+        style={{ marginBottom: 5, flex: 1, elevation: 0.3 }}
         data={roundsArray}
         keyExtractor={(item, index) => "key" + index}
         renderItem={({ item }) => (
-          <View>
-            <Text>{item}</Text>
+          <View style={styles.listItme}>
+            <Text style={styles.listItmeText}>{item}</Text>
           </View>
         )}
       />
@@ -160,6 +162,24 @@ const styles = StyleSheet.create({
     padding: 2,
     marginTop: 4,
     marginHorizontal: wp("3%")
+  },
+  listItme: {
+    flex: 1,
+
+    flexDirection: "column-reverse",
+    justifyContent: "flex-end",
+    width: wp("80%"),
+    height: hp("6%"),
+    alignItems: "center",
+    marginVertical: 6,
+    padding: 4,
+    borderWidth: 2,
+    borderColor: Colors.primaryColor,
+    borderRadius: 7
+  },
+  listItmeText: {
+    fontSize: 20,
+    color: "#666563"
   }
 });
 
